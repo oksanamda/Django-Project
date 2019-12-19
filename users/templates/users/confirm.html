@@ -1,0 +1,21 @@
+{% extends 'movie/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Confirm Your Phone Number {% endblock %}
+{% block body %}
+    <div class="container">
+    <form method="post">
+        {% csrf_token %}
+            <fieldset class="form-group">
+                <h1 class="display-3">
+                    CONFIRM YOUR PHONE NUMBER
+                </h1>
+                {{ form|crispy }}
+            </fieldset>
+        <div class="form-group">
+            <button class="btn btn-info" type="submit">Registration</button> <br>
+            <small class="text-muted">We will send you sms with your individual code.</small>
+        </div>
+    </form>
+    </div>
+{% endblock %}

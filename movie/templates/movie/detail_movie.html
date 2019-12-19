@@ -1,0 +1,100 @@
+{% extends 'movie/base.html' %}
+{% block title %} {{ movie.title }}{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid songs-container">
+
+    <div class="row">
+    <!-- Left-->
+    <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {% if movie.poster %}
+                        <img src="{{ movie.poster.url }}" class="img-responsive">
+                    {% else %}
+                        <h3>No image to display</h3>
+                    {% endif %}
+                    <h2>{{ movie.title}}, {{ movie.year }}</h2>
+                    <h4>{{ movie.genre }} </h4>
+                    <h4> Movie director: <a href="{% url 'movie:detail' movie.director.id %}"> {{ movie.director }}</a></h4>
+                    <h4>Created by {{ movie.author }}</h4>
+                </div>
+            </div>
+        </div>
+
+    <!-- Right -->
+    <div class="col-sm-8 col-md-9">
+            {% if user.is_authenticated %}
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+
+                <li role="presentation" class="active"><a href="{% url 'movie:a-add' %}">Add Actors</a></li>
+                <li role="presentation" class="active"><a href="{% url 'movie:m-update' movie.pk %}">Update Information</a></li>
+            </ul>
+            {% endif %}
+
+             <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <h3>All Actors</h3>
+
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date of Birth</th>
+                            <th>Country</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for actor in movie.actor_set.all %}
+                            <tr>
+                                <td><a href="https://en.wikipedia.org/wiki/{{ actor.name }}_{{ actor.surname }}">{{ actor.name }} {{ actor.surname }}</a></td>
+                                <td>{{ actor.birthday }}</td>
+                                <td>{{ actor.country }}</td>
+                                {% if user.is_authenticated %}<td>
+                                    <button class="btn btn-xs">
+                                    <a href="{% url 'movie:a-update' actor.pk %}">Update Actor Information </a>
+                                    </button>
+                                    <form action="{% url 'movie:a-delete' actor.pk %}" method="get" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="song_id" value="{{ movie.id }}" />
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-remove"></span> Delete Actor</button>
+                                    </form>
+                                </td>
+                            {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        <div class="reviews">
+        {% if user.is_authenticated %}
+            <a class="text-center" href="{% url 'movie:add_review' movie.id %} ">Add Review</a>
+            {% endif %}
+            {% for review in movie.review.all %}
+            <h4 class="text-center">"{{ review.title }}" by {{ review.author }} <small><a href="{% url 'movie:update_review' review.pk %}">Update</a>, <a class="text-danger" href="{% url 'movie:delete_review' review.pk %}">Delete</a></small> </h4>
+             <h3 class="text-center">{{ review.review }}</h3>
+              <h4 class="text-center">Rated {{ review.rating }}<i class="fa fa-star" aria-hidden="true"></i></h4>
+            <br>
+                <h4 class="text-right">Rating: {{review.rating }} </h4>
+
+            {% endfor %}
+                    <h4 class="text-right">Total reviews: {{movie.review.all|length }} </h4>
+             </div>
+
+        </div>
+
+
+    </div>
+
+    </div>
+
+{% endblock %}

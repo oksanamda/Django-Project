@@ -1,0 +1,84 @@
+{% extends 'movie/base.html' %}
+
+{% block title %} {{ moviedirector.name }} {{ moviedirector.surname }} {% endblock %}
+
+{% block body %}
+
+<div class="container-fluid songs-container">
+
+    <div class="row">
+    <!-- Left-->
+    <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {% if moviedirector.photo %}
+                        <img src="{{ moviedirector.photo.url }}" class="img-responsive">
+                    {% else %}
+                        <h3>No image to display</h3>
+                    {% endif %}
+                    <h2>{{ moviedirector.name }} {{ moviedirector.surname }}</h2>
+                    <h4>{{ moviedirector.birthday }}, {{ moviedirector.country }} </h4>
+                    <h4>{% if moviedirector.is_alive == False %} (died){% endif %}</h4>
+                    <h4>Created by {{ moviedirector.author }}</h4>
+                </div>
+            </div>
+        </div>
+
+    <!-- Right -->
+    <div class="col-sm-8 col-md-9">
+        {% if user.is_authenticated %}
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                <li role="presentation" class="active"><a href="{% url 'movie:m-add' %}">Add Movie</a></li>
+                <li role="presentation" class="active"><a href="{% url 'movie:d-update' moviedirector.pk %}">Update Information</a></li>
+            </ul>
+        {% endif %}
+             <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <h3>All Movies</h3>
+
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Year</th>
+                            <th>Genre</th>
+                            {% if user.is_authenticated %}<th>Delete</th>{% endif %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for movie in moviedirector.movie_set.all %}
+                            <tr>
+                                <td><a href="{% url 'movie:detail_movie' movie.id %}">{{ movie.title }}</a></td>
+                                <td>{{ movie.year }}</td>
+                                <td>{{ movie.genre }}</td>
+                                <td>
+                                    {% if user.is_authenticated %}
+                                    <form action="{% url 'movie:m-delete' movie.pk %}" method="get" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="song_id" value="{{ moviedirector.id }}" />
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-remove"></span> Delete Movie</button>
+                                    </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    </div>
+
+{% endblock %}

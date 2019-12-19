@@ -1,0 +1,18 @@
+body {
+    background: white url("images/background.png");
+}
+
+.navbar {
+    border-radius: 0;
+}
+
+.navbar-header {
+    font-family: 'Satisfy', cursive;
+}
+
+.links:last-child {
+    visibility: collapse !important;
+}
+.fa-star {
+    color: gold;
+}

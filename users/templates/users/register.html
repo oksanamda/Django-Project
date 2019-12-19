@@ -1,0 +1,25 @@
+{% extends "movie/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} Create New Account {% endblock %}
+{% block body %}
+    <div class="container">
+    <form method="post">
+        {% csrf_token %}
+            <fieldset class="form-group">
+                <h1 class="display-3">
+                    CREATE NEW ACCOUNT
+                </h1>
+                {{ form|crispy }}
+            </fieldset>
+        <div class="form-group">
+            <button class="btn btn-info" type="submit">Sign Up</button>
+        </div>
+    </form>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Already have an account?
+            <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+        </small>
+    </div>
+{% endblock %}

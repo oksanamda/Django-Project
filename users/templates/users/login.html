@@ -1,0 +1,28 @@
+{% extends "movie/base.html" %}
+{% load crispy_forms_tags %}
+{% load socialaccount %}
+{% providers_media_js %}
+
+{% block title %} Login {% endblock %}
+{% block body %}
+    <div class="container">
+    <form method="post">
+        {% csrf_token %}
+            <fieldset class="form-group">
+                <h1 class="display-3">
+                    LOGIN
+                </h1>
+                {{ form|crispy }}
+            </fieldset>
+        <div class="form-group">
+            <button class="btn btn-info" type="submit">Login</button>
+        </div>
+    </form>
+    <div class="border-top pt-3">
+        <h4><a href="{% provider_login_url "google" %}">Login with Google</a></h4>
+        <small class="text-muted">
+            Haven't got an account?
+            <a class="ml-2" href="{% url 'register' %}">Sign Up Now</a>
+        </small>
+    </div>
+{% endblock %}

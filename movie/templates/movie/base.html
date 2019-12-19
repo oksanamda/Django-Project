@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>{% block title %} Movie Library  {% endblock %}</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'movie/style.css' %} "/>
+
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <!-- Header -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand">
+                    Movie App
+                </a>
+            </div>
+
+            <!-- Items -->
+            <div class="collapse navbar-collapse" id="topNavBar">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="{% url 'movie:index_movie' %}">
+                        <span class="glyphicon glyphicon-film" aria-hidden="true"></span>&nbsp;
+                        Movies
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'movie:index' %}">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;
+                        Movie Directors
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                    <li class="">
+                        <a href="{% url 'movie:d-add' %}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;
+                        Add Movie Director
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="{% url 'movie:m-add' %}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;
+                        Add Movie
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="{% url 'movie:a-add' %}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;
+                        Add Actor
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'logout' %}">
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;
+                        Logout
+                        </a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="{% url 'login' %}">
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;
+                        Login
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+
+            </div>
+
+        </div>
+    </nav>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% block body %}
+    {% endblock %}
+
+</body>
+</html>
