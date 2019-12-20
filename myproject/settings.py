@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','@op##smo8nd7regg_5)w%v9n*hwc4)-
 # DEBUG = True
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = ['movie-spbu.herokuapp.com',]
+ALLOWED_HOSTS = ['https://movie-spbu.herokuapp.com/',]
 
 
 # Application definition
@@ -149,7 +149,6 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 1
-SITE_ID = 2
 
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url
