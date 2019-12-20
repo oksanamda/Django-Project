@@ -148,6 +148,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+SITE_ID = 1
 SITE_ID = 2
 
 # Heroku: Update database configuration from $DATABASE_URL.
